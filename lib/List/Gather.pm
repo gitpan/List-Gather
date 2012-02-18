@@ -3,7 +3,7 @@ BEGIN {
   $List::Gather::AUTHORITY = 'cpan:FLORA';
 }
 {
-  $List::Gather::VERSION = '0.04';
+  $List::Gather::VERSION = '0.05';
 }
 # ABSTRACT: Construct lists procedurally without temporary variables
 
@@ -71,8 +71,8 @@ C<gather> returns the list of values taken during its block's execution.
 
 =head2 gather
 
-  gather { ... };
-  gather({ ... });
+  gather { ... }
+  gather({ ... })
 
 Executes the block it has been provided with, collecting all arguments passed to
 C<take> calls within it. After execution, the list of values collected is
@@ -86,9 +86,9 @@ Parens around the C<gather> block are optional.
 
 =head2 take
 
-  take LIST;
+  take LIST
 
-Collects a C<LIST> of values within the currently executing C<gather> block.
+Collects a C<LIST> of values within the C<gather> block it has been compiled in.
 
 C<take> returns no meaningful value.
 
@@ -98,7 +98,7 @@ C<gather> block.
 
 =head2 gathered
 
-  gathered;
+  gathered
 
 Returns the list of items collected so far during the execution of a C<gather>
 block.
