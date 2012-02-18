@@ -3,7 +3,7 @@ BEGIN {
   $List::Gather::AUTHORITY = 'cpan:FLORA';
 }
 {
-  $List::Gather::VERSION = '0.03';
+  $List::Gather::VERSION = '0.04';
 }
 # ABSTRACT: Construct lists procedurally without temporary variables
 
@@ -47,19 +47,15 @@ List::Gather - Construct lists procedurally without temporary variables
   use List::Gather;
 
   my @list = gather {
-      # Try to extract odd numbers and odd number names...
-      for (@data) {
-          if (/(one|three|five|seven|nine)$/) {
-              take qq{'$_'};
-          }
-          elsif (/^\d+$/ && $_ %2) {
-              take $_;
-          }
+      while (<$fh>) {
+          next if /^\s*$/;
+          next if /^\s*#/;
+          last if /^(?:__END__|__DATA__)$/;
+          take $_ if some_predicate($_);
       }
 
-      # But use the default set if there aren't any of either...
       take @defaults unless gathered;
-  }
+  };
 
 =head1 DESCRIPTION
 
@@ -81,6 +77,10 @@ C<gather> returns the list of values taken during its block's execution.
 Executes the block it has been provided with, collecting all arguments passed to
 C<take> calls within it. After execution, the list of values collected is
 returned.
+
+Note that block C<gather> executes is equivalent to a C<do BLOCK>. It is neither
+a code nor a loop. Loop control keywords, such as C<next> and C<last>, as well
+as C<return> will behave accordingly.
 
 Parens around the C<gather> block are optional.
 
@@ -106,6 +106,45 @@ block.
 C<gathered> calls outside of the lexical scope of a C<gather> block are compile
 time errors. Calling C<gathered> outside of the dynamic scope of its associated
 C<gather> block is legal.
+
+=head1 EXAMPLES
+
+  my @interesting_child_nodes = gather {
+      for my $n (@nodes) {
+          take $n->all_children
+              if $n->is_interesting;
+      }
+  };
+
+  my @last_10_events = gather {
+      while ($log->has_event) {
+          take $log->next_event;
+      }
+
+      shift gathered while gathered > 10;
+  };
+
+  my @search_results = gather {
+      $user_interface->register_status_callback(sub {
+          sprintf "Searching... Found %d matches so far", scalar gathered;
+      });
+
+      wait_for_search_results(sub {
+          my ($result) = @_;
+          take $result;
+      }, @search_terms);
+
+      $user_interface->register_status_callback(sub {
+          sprintf "Found a total of %d", scalar gathered;
+      });
+  };
+
+  my @leaf_nodes = gather {
+      $graph->visit_all_nodes_recursively(sub {
+          my ($node) = @_;
+          take $node if $node->is_leaf;
+      }
+  };
 
 =head1 SEE ALSO
 
@@ -151,6 +190,12 @@ Arthur Axel "fREW" Schmidt E<lt>frioux+cpan@gmail.comE<gt>
 
 for his input on various aspects of this module as well as the many tests of his
 L<Syntax::Keyword::Gather> module that this module shamelessly stole
+
+=item *
+
+Dave (autarch) Rolsky <autarch@urth.org> and Jesse (doy) Luehrs E<lt>doy@tozt.netE<gt>
+
+for helping to improve both documentation and test coverage
 
 =back
 

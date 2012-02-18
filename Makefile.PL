@@ -41,7 +41,6 @@ my %WriteMakefileArgs = (
   'NAME' => 'List::Gather',
   'OBJECT' => '$(BASEEXT)$(OBJ_EXT)',
   'PREREQ_PM' => {
-    'B::Hooks::EndOfScope' => '0',
     'Devel::CallChecker' => '0',
     'Devel::CallParser' => '0',
     'Sub::Exporter' => '0',
@@ -49,7 +48,7 @@ my %WriteMakefileArgs = (
     'strict' => '0',
     'warnings' => '0'
   },
-  'VERSION' => '0.03',
+  'VERSION' => '0.04',
   'clean' => {
     'FILES' => 'callchecker0.h callparser.h'
   },

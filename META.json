@@ -24,7 +24,6 @@
       },
       "runtime" : {
          "requires" : {
-            "B::Hooks::EndOfScope" : "0",
             "Devel::CallChecker" : "0",
             "Devel::CallParser" : "0",
             "Sub::Exporter" : "0",
@@ -54,7 +53,7 @@
          "web" : "http://github.com/rafl/list-gather"
       }
    },
-   "version" : "0.03",
+   "version" : "0.04",
    "x_Dist_Zilla" : {
       "plugins" : [
          {
@@ -173,13 +172,13 @@
             "version" : "3.101641"
          },
          {
-            "class" : "Dist::Zilla::Plugin::AutoPrereqs",
-            "name" : "@Filter/AutoPrereqs",
+            "class" : "Dist::Zilla::Plugin::PruneFiles",
+            "name" : "PruneFiles",
             "version" : "4.300008"
          },
          {
-            "class" : "Dist::Zilla::Plugin::PruneFiles",
-            "name" : "PruneFiles",
+            "class" : "Dist::Zilla::Plugin::AutoPrereqs",
+            "name" : "AutoPrereqs",
             "version" : "4.300008"
          },
          {

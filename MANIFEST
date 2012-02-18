@@ -1,11 +1,15 @@
 Changes
+Gather.i
 Gather.xs
 LICENSE
 MANIFEST
 META.json
 META.yml
+MYMETA.json
 Makefile.PL
 README
+callchecker0.h
+callparser.h
 dist.ini
 inc/MMHelper.pm
 inc/MakeMaker.pm
@@ -18,4 +22,5 @@ t/release-eol.t
 t/release-no-tabs.t
 t/release-pod-coverage.t
 t/release-pod-syntax.t
+t/return.t
 t/syntax.t
