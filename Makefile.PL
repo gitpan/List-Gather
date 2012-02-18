@@ -7,13 +7,17 @@ use Devel::CallChecker;
 use Devel::CallParser;
 use IO::File;
 
-IO::File->new('callchecker0.h', 'w')->print(
-    Devel::CallChecker::callchecker0_h,
-);
+write_header('callchecker0.h', Devel::CallChecker::callchecker0_h);
+write_header('callparser.h', eval { Devel::CallParser::callparser1_h } || Devel::CallParser::callparser0_h);
 
-IO::File->new('callparser.h', 'w')->print(
-    Devel::CallParser::callparser1_h,
-);
+sub write_header {
+    my ($header, $content) = @_;
+    my $fh = IO::File->new($header, 'w') or die $!;
+    $fh->print($content) or die $!;
+    $fh->close or die $!;
+}
+
+1;
 
 use ExtUtils::MakeMaker 6.30;
 
@@ -36,6 +40,7 @@ my %WriteMakefileArgs = (
   'NAME' => 'List::Gather',
   'OBJECT' => '$(BASEEXT)$(OBJ_EXT)',
   'PREREQ_PM' => {
+    'B::Hooks::EndOfScope' => '0',
     'Devel::CallChecker' => '0',
     'Devel::CallParser' => '0',
     'Sub::Exporter' => '0',
@@ -43,7 +48,7 @@ my %WriteMakefileArgs = (
     'strict' => '0',
     'warnings' => '0'
   },
-  'VERSION' => '0.01',
+  'VERSION' => '0.02',
   'clean' => {
     'FILES' => 'callchecker0.h callparser.h'
   },
@@ -70,6 +75,8 @@ delete $WriteMakefileArgs{CONFIGURE_REQUIRES}
   unless eval { ExtUtils::MakeMaker->VERSION(6.52) };
 
 $WriteMakefileArgs{CCFLAGS} = ( $Config::Config{ccflags} || '' ) . ' -I.';
+
+$WriteMakefileArgs{PREREQ_PM}->{'B::Hooks::EndOfScope'} = 0 if $] < 5.013008;
 
 WriteMakefile(%WriteMakefileArgs);
 

@@ -3,7 +3,7 @@
    "author" : [
       "Florian Ragwitz <rafl@debian.org>"
    ],
-   "dynamic_config" : 0,
+   "dynamic_config" : 1,
    "generated_by" : "Dist::Zilla version 4.300008, CPAN::Meta::Converter version 2.120351",
    "license" : [
       "perl_5"
@@ -24,6 +24,7 @@
       },
       "runtime" : {
          "requires" : {
+            "B::Hooks::EndOfScope" : "0",
             "Devel::CallChecker" : "0",
             "Devel::CallParser" : "0",
             "Sub::Exporter" : "0",
@@ -39,7 +40,7 @@
          }
       }
    },
-   "release_status" : "testing",
+   "release_status" : "stable",
    "resources" : {
       "bugtracker" : {
          "mailto" : "bug-List-Gather@rt.cpan.org",
@@ -52,7 +53,7 @@
          "web" : "http://github.com/rafl/list-gather"
       }
    },
-   "version" : "0.01",
+   "version" : "0.02",
    "x_Dist_Zilla" : {
       "plugins" : [
          {
@@ -219,7 +220,7 @@
       "zilla" : {
          "class" : "Dist::Zilla::Dist::Builder",
          "config" : {
-            "is_trial" : "1"
+            "is_trial" : "0"
          },
          "version" : "4.300008"
       }

@@ -3,7 +3,7 @@ BEGIN {
   $List::Gather::AUTHORITY = 'cpan:FLORA';
 }
 {
-  $List::Gather::VERSION = '0.01'; # TRIAL
+  $List::Gather::VERSION = '0.02';
 }
 # ABSTRACT: Construct lists procedurally without temporary variables
 
@@ -18,6 +18,9 @@ XSLoader::load(
     __PACKAGE__,
     $List::Gather::{VERSION} ? ${ $List::Gather::{VERSION} } : (),
 );
+
+require B::Hooks::EndOfScope
+    unless _QPARSE_DIRECTLY();
 
 my @keywords;
 BEGIN { @keywords = qw(gather take gathered) }
