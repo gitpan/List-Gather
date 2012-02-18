@@ -36,7 +36,8 @@
       "test" : {
          "requires" : {
             "Test::Fatal" : "0",
-            "Test::More" : "0.98"
+            "Test::More" : "0.98",
+            "Try::Tiny" : "0"
          }
       }
    },
@@ -53,7 +54,7 @@
          "web" : "http://github.com/rafl/list-gather"
       }
    },
-   "version" : "0.02",
+   "version" : "0.03",
    "x_Dist_Zilla" : {
       "plugins" : [
          {

@@ -26,7 +26,8 @@ my %WriteMakefileArgs = (
   'AUTHOR' => 'Florian Ragwitz <rafl@debian.org>',
   'BUILD_REQUIRES' => {
     'Test::Fatal' => '0',
-    'Test::More' => '0.98'
+    'Test::More' => '0.98',
+    'Try::Tiny' => '0'
   },
   'CONFIGURE_REQUIRES' => {
     'Devel::CallChecker' => '0',
@@ -48,7 +49,7 @@ my %WriteMakefileArgs = (
     'strict' => '0',
     'warnings' => '0'
   },
-  'VERSION' => '0.02',
+  'VERSION' => '0.03',
   'clean' => {
     'FILES' => 'callchecker0.h callparser.h'
   },

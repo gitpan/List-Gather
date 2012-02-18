@@ -11,7 +11,9 @@ inc/MMHelper.pm
 inc/MakeMaker.pm
 lib/List/Gather.pm
 t/basic.t
+t/context.t
 t/errors.t
+t/exceptions.t
 t/release-eol.t
 t/release-no-tabs.t
 t/release-pod-coverage.t
