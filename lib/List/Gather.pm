@@ -3,7 +3,7 @@ BEGIN {
   $List::Gather::AUTHORITY = 'cpan:FLORA';
 }
 {
-  $List::Gather::VERSION = '0.05';
+  $List::Gather::VERSION = '0.06';
 }
 # ABSTRACT: Construct lists procedurally without temporary variables
 

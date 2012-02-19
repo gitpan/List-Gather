@@ -17,7 +17,9 @@
 # define PERL_PADSEQ_INTRO I32_MAX
 #endif /* !PERL_PADSEQ_INTRO */
 
-#define pad_findmy_pvs(n,f) pad_findmy((""n""), (sizeof(""n"") - 1), f)
+#ifndef pad_findmy_pvs
+# define pad_findmy_pvs(n,f) pad_findmy((""n""), (sizeof(""n"") - 1), f)
+#endif
 
 #define PERL_VERSION_DECIMAL(r,v,s) (r*1000000 + v*1000 + s)
 #define PERL_DECIMAL_VERSION \
@@ -104,11 +106,10 @@ mygenop_padav (pTHX_ U32 flags, GV *op_namegv)
     pvarop->op_targ = pad_add_my_array_pvn(aTHX_ STR_WITH_LEN("@List::Gather::gatherer"));
     pvarop->op_ppaddr = pp_my_padav;
     PL_hints |= HINT_BLOCK_SCOPE;
-  }
-  else {
-    pvarop->op_targ = pad_findgatherer(aTHX_ op_namegv);
+    return pvarop;
   }
 
+  pvarop->op_targ = pad_findgatherer(aTHX_ op_namegv);
   return pvarop;
 }
 
@@ -184,14 +185,6 @@ myck_entersub_gatherer_intro (pTHX_ OP *entersubop, GV *namegv, SV *protosv)
   op_free(entersubop);
   return mygenop_padav(aTHX_ GENOP_GATHER_INTRO, namegv);
 }
-
-static OP *
-myck_entersub_gatherer_outro (pTHX_ OP *entersubop, GV *namegv, SV *protosv)
-{
-  PERL_UNUSED_ARG(protosv);
-  op_free(entersubop);
-  return mygenop_padav(aTHX_ 0, namegv);
-}
 #endif
 
 static OP *
@@ -236,9 +229,8 @@ myck_entersub_take (pTHX_ OP *entersubop, GV *namegv, SV *protosv)
   op_free(entersubop);
 
   lastop = cLISTOPx(listop)->op_first;
-  while (lastop->op_sibling != cLISTOPx(listop)->op_last) {
+  while (lastop->op_sibling != cLISTOPx(listop)->op_last)
     lastop = lastop->op_sibling;
-  }
   rv2cvop = lastop->op_sibling;
 
   lastop->op_sibling = NULL;
@@ -300,7 +292,7 @@ myparse_args_gather (pTHX_ GV *namegv, SV *psobj, U32 *flagsp)
   lex_read_unichar(0);
 
   lex_stuff_pvs_("}}", 0);
-  lex_stuff_pvs_("List::Gather::_stuff(';List::Gather::_gatherer_outro;}')", 0);
+  lex_stuff_pvs_("List::Gather::_stuff(';List::Gather::gathered;}')", 0);
   if (had_paren)
     *flagsp |= CALLPARSER_PARENS;
   else
@@ -348,13 +340,6 @@ _gatherer_intro (...)
     PERL_UNUSED_VAR(items);
     croak("_gatherer_intro called as a function");
 
-void
-_gatherer_outro (...)
-  PROTOTYPE:
-  CODE:
-    PERL_UNUSED_VAR(items);
-    croak("_gatherer_outro called as a function");
-
 #endif
 
 bool
@@ -368,18 +353,15 @@ BOOT:
 {
   CV *gather_cv, *take_cv, *gathered_cv;
 #if !QPARSE_DIRECTLY
-  CV *gatherer_intro_cv, *gatherer_outro_cv;
+  CV *gatherer_intro_cv;
 
   methodwrapper_sv = newSVpvs("");
   methodwrapper_nxck_entersub = PL_check[OP_ENTERSUB];
   PL_check[OP_ENTERSUB] = methodwrapper_myck_entersub;
 
   gatherer_intro_cv = get_cv("List::Gather::_gatherer_intro", 0);
-  gatherer_outro_cv = get_cv("List::Gather::_gatherer_outro", 0);
   cv_set_call_checker(gatherer_intro_cv, myck_entersub_gatherer_intro,
                       (SV*)gatherer_intro_cv);
-  cv_set_call_checker(gatherer_outro_cv, myck_entersub_gatherer_outro,
-                      (SV*)gatherer_outro_cv);
 #endif
 
   gather_cv = get_cv("List::Gather::gather", 0);
