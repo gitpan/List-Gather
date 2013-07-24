@@ -3,7 +3,7 @@ BEGIN {
   $List::Gather::AUTHORITY = 'cpan:FLORA';
 }
 {
-  $List::Gather::VERSION = '0.06';
+  $List::Gather::VERSION = '0.07';
 }
 # ABSTRACT: Construct lists procedurally without temporary variables
 
@@ -34,6 +34,7 @@ use Sub::Exporter -setup => {
 1;
 
 __END__
+
 =pod
 
 =encoding utf-8
@@ -90,7 +91,7 @@ Parens around the C<gather> block are optional.
 
 Collects a C<LIST> of values within the C<gather> block it has been compiled in.
 
-C<take> returns no meaningful value.
+C<take> returns all its arguments.
 
 C<take> calls outside of the lexical scope of a C<gather> block are compile time
 errors. Calling C<take> is only legal within the dynamic scope its associated
@@ -205,10 +206,9 @@ Florian Ragwitz <rafl@debian.org>
 
 =head1 COPYRIGHT AND LICENSE
 
-This software is copyright (c) 2012 by Florian Ragwitz.
+This software is copyright (c) 2013 by Florian Ragwitz.
 
 This is free software; you can redistribute it and/or modify it under
 the same terms as the Perl 5 programming language system itself.
 
 =cut
-
