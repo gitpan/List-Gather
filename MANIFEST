@@ -6,6 +6,8 @@ META.json
 META.yml
 Makefile.PL
 README
+callchecker0.h
+callparser.h
 dist.ini
 inc/MMHelper.pm
 inc/MakeMaker.pm
@@ -14,6 +16,7 @@ t/basic.t
 t/context.t
 t/errors.t
 t/exceptions.t
+t/modifier.t
 t/release-eol.t
 t/release-no-tabs.t
 t/release-pod-coverage.t

@@ -36,4 +36,17 @@ like $@, qr/^take called as a function/;
 eval { &gathered(24) };
 like $@, qr/^gathered called as a function/;
 
+eval 'gather(while (0) {});';
+like $@, qr/syntax error/;
+
+if ($] < 5.013008) {
+    eval 'gather while (0) { };';
+    like $@, qr/syntax error/;
+}
+else {
+    eval 'gather FOO: while (0) { };';
+    like $@, qr/syntax error/;
+}
+
+
 done_testing;
