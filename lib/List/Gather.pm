@@ -1,12 +1,8 @@
 package List::Gather;
-BEGIN {
-  $List::Gather::AUTHORITY = 'cpan:FLORA';
-}
-{
-  $List::Gather::VERSION = '0.08';
-}
-# ABSTRACT: Construct lists procedurally without temporary variables
+# git description: 0.08-5-g3324d4f
 
+# ABSTRACT: Construct lists procedurally without temporary variables
+{ our $VERSION = '0.09'; }
 use strict;
 use warnings;
 use Devel::CallParser;
@@ -30,6 +26,135 @@ use Sub::Exporter -setup => {
     groups  => { default => [@keywords] },
 };
 
+#pod =head1 SYNOPSIS
+#pod
+#pod   use List::Gather;
+#pod
+#pod   my @list = gather {
+#pod       while (<$fh>) {
+#pod           next if /^\s*$/;
+#pod           next if /^\s*#/;
+#pod           last if /^(?:__END__|__DATA__)$/;
+#pod           take $_ if some_predicate($_);
+#pod       }
+#pod
+#pod       take @defaults unless gathered;
+#pod   };
+#pod
+#pod =head1 DESCRIPTION
+#pod
+#pod This module provides a C<gather> keyword that allows lists to be constructed
+#pod procedurally, without the need for a temporary variable.
+#pod
+#pod Within the block controlled by a C<gather> any call to C<take> pushes that
+#pod call's argument list to an implicitly created array.
+#pod
+#pod C<gather> returns the list of values taken during its block's execution.
+#pod
+#pod =head1 EXAMPLES
+#pod
+#pod   my @interesting_child_nodes = gather for my $n (@nodes) {
+#pod       take $n->all_children
+#pod           if $n->is_interesting;
+#pod   };
+#pod
+#pod   my @last_10_events = gather {
+#pod       while ($log->has_event) {
+#pod           take $log->next_event;
+#pod       }
+#pod
+#pod       shift gathered while gathered > 10;
+#pod   };
+#pod
+#pod   my @search_results = gather {
+#pod       $user_interface->register_status_callback(sub {
+#pod           sprintf "Searching... Found %d matches so far", scalar gathered;
+#pod       });
+#pod
+#pod       wait_for_search_results(sub {
+#pod           my ($result) = @_;
+#pod           take $result;
+#pod       }, @search_terms);
+#pod
+#pod       $user_interface->register_status_callback(sub {
+#pod           sprintf "Found a total of %d", scalar gathered;
+#pod       });
+#pod   };
+#pod
+#pod   my @leaf_nodes = gather {
+#pod       $graph->visit_all_nodes_recursively(sub {
+#pod           my ($node) = @_;
+#pod           take $node if $node->is_leaf;
+#pod       }
+#pod   };
+#pod
+#pod =func gather
+#pod
+#pod   gather { ... }
+#pod   gather({ ... })
+#pod   gather STMT
+#pod
+#pod Executes the block it has been provided with, collecting all arguments passed to
+#pod C<take> calls within it. After execution, the list of values collected is
+#pod returned.
+#pod
+#pod Note that block C<gather> executes is equivalent to a C<do BLOCK>. It is neither
+#pod a code nor a loop. Loop control keywords, such as C<next> and C<last>, as well
+#pod as C<return> will behave accordingly.
+#pod
+#pod Parens around the C<gather> block are optional.
+#pod
+#pod =func take
+#pod
+#pod   take LIST
+#pod
+#pod Collects a C<LIST> of values within the C<gather> block it has been compiled in.
+#pod
+#pod C<take> returns all its arguments.
+#pod
+#pod C<take> calls outside of the lexical scope of a C<gather> block are compile time
+#pod errors. Calling C<take> is only legal within the dynamic scope its associated
+#pod C<gather> block.
+#pod
+#pod =func gathered
+#pod
+#pod   gathered
+#pod
+#pod Returns the list of items collected so far during the execution of a C<gather>
+#pod block.
+#pod
+#pod C<gathered> calls outside of the lexical scope of a C<gather> block are compile
+#pod time errors. Calling C<gathered> outside of the dynamic scope of its associated
+#pod C<gather> block is legal.
+#pod
+#pod =head1 SEE ALSO
+#pod
+#pod =for :list
+#pod = L<Syntax::Keyword::Gather>
+#pod A non-lexical gather/take implementation that's otherwise very similar to this one
+#pod = L<Perl6::GatherTake>
+#pod An experimental implementation of a lazily evaluating gather/take
+#pod = L<Perl6::Take>
+#pod A very simple gather/take implementation without lexical scoping
+#pod = L<Perl6::Gather>
+#pod Like L<Syntax::Keyword::Gather>, but reliant on L<Perl6::Export>
+#pod = L<List::Gen>
+#pod A comprehensive suit list generation functions featuring a non-lexical gather/take
+#pod
+#pod =head1 ACKNOWLEDGEMENTS
+#pod
+#pod =for :list
+#pod * Andrew Main (Zefram) E<lt>zefram@fysh.orgE<gt>
+#pod for providing his input in both the design and implementation of this module,
+#pod and writing much of the infrastructure that made this module possible in the
+#pod first place
+#pod * Arthur Axel "fREW" Schmidt E<lt>frioux+cpan@gmail.comE<gt>
+#pod for his input on various aspects of this module as well as the many tests of his
+#pod L<Syntax::Keyword::Gather> module that this module shamelessly stole
+#pod * Dave (autarch) Rolsky <autarch@urth.org> and Jesse (doy) Luehrs E<lt>doy@tozt.netE<gt>
+#pod for helping to improve both documentation and test coverage
+#pod
+#pod =cut
 
 1;
 
@@ -37,11 +162,15 @@ __END__
 
 =pod
 
-=encoding utf-8
+=encoding UTF-8
 
 =head1 NAME
 
 List::Gather - Construct lists procedurally without temporary variables
+
+=head1 VERSION
+
+version 0.09
 
 =head1 SYNOPSIS
 
@@ -205,9 +334,25 @@ Florian Ragwitz <rafl@debian.org>
 
 =head1 COPYRIGHT AND LICENSE
 
-This software is copyright (c) 2013 by Florian Ragwitz.
+This software is copyright (c) 2012 by Florian Ragwitz.
 
 This is free software; you can redistribute it and/or modify it under
 the same terms as the Perl 5 programming language system itself.
+
+=head1 CONTRIBUTORS
+
+=for stopwords Karen Etheridge Tony Cook
+
+=over 4
+
+=item *
+
+Karen Etheridge <ether@cpan.org>
+
+=item *
+
+Tony Cook <tonyc@cpan.org>
+
+=back
 
 =cut
