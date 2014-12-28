@@ -30,7 +30,7 @@ no_index:
 provides:
   List::Gather:
     file: lib/List/Gather.pm
-    version: '0.09'
+    version: '0.10'
 requires:
   Devel::CallChecker: '0'
   Devel::CallParser: '0'
@@ -43,7 +43,7 @@ resources:
   bugtracker: https://rt.cpan.org/Public/Dist/Display.html?Name=List-Gather
   homepage: https://github.com/karenetheridge/List-Gather
   repository: https://github.com/karenetheridge/List-Gather.git
-version: '0.09'
+version: '0.10'
 x_Dist_Zilla:
   perl:
     version: '5.021006'
@@ -112,6 +112,8 @@ x_Dist_Zilla:
         Dist::Zilla::Plugin::GatherDir:
           exclude_filename:
             - Makefile.PL
+            - README.pod
+            - CONTRIBUTING
           exclude_match: []
           follow_symlinks: '0'
           include_dotfiles: '0'
@@ -251,8 +253,11 @@ x_Dist_Zilla:
       version: '5.029'
     -
       class: Dist::Zilla::Plugin::Git::Describe
+      config:
+        Dist::Zilla::Plugin::Git::Describe:
+          on_package_line: '0'
       name: '@Author::ETHER/Git::Describe'
-      version: '0.003'
+      version: '0.004'
     -
       class: Dist::Zilla::Plugin::PodWeaver
       config:
@@ -564,7 +569,7 @@ x_Dist_Zilla:
         Dist::Zilla::Plugin::Git::Tag:
           branch: ~
           signed: 0
-          tag: '0.09'
+          tag: '0.10'
           tag_format: '%v%t'
           tag_message: v%v%t
           time_zone: local
@@ -647,5 +652,6 @@ x_authority: cpan:ETHER
 x_authority_from_module: List::Gather
 x_contributors:
   - 'Karen Etheridge <ether@cpan.org>'
+  - 'Father Chrysostomos <sprout@cpan.org>'
   - 'Tony Cook <tonyc@cpan.org>'
 x_permissions_from_module: List::Gather

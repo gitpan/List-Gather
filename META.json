@@ -143,7 +143,7 @@
    "provides" : {
       "List::Gather" : {
          "file" : "lib/List/Gather.pm",
-         "version" : "0.09"
+         "version" : "0.10"
       }
    },
    "release_status" : "stable",
@@ -159,7 +159,7 @@
          "web" : "https://github.com/karenetheridge/List-Gather"
       }
    },
-   "version" : "0.09",
+   "version" : "0.10",
    "x_Dist_Zilla" : {
       "perl" : {
          "version" : "5.021006"
@@ -246,7 +246,9 @@
             "config" : {
                "Dist::Zilla::Plugin::GatherDir" : {
                   "exclude_filename" : [
-                     "Makefile.PL"
+                     "Makefile.PL",
+                     "README.pod",
+                     "CONTRIBUTING"
                   ],
                   "exclude_match" : [],
                   "follow_symlinks" : "0",
@@ -427,8 +429,13 @@
          },
          {
             "class" : "Dist::Zilla::Plugin::Git::Describe",
+            "config" : {
+               "Dist::Zilla::Plugin::Git::Describe" : {
+                  "on_package_line" : "0"
+               }
+            },
             "name" : "@Author::ETHER/Git::Describe",
-            "version" : "0.003"
+            "version" : "0.004"
          },
          {
             "class" : "Dist::Zilla::Plugin::PodWeaver",
@@ -845,7 +852,7 @@
                "Dist::Zilla::Plugin::Git::Tag" : {
                   "branch" : null,
                   "signed" : 0,
-                  "tag" : "0.09",
+                  "tag" : "0.10",
                   "tag_format" : "%v%t",
                   "tag_message" : "v%v%t",
                   "time_zone" : "local"
@@ -956,6 +963,7 @@
    "x_authority_from_module" : "List::Gather",
    "x_contributors" : [
       "Karen Etheridge <ether@cpan.org>",
+      "Father Chrysostomos <sprout@cpan.org>",
       "Tony Cook <tonyc@cpan.org>"
    ],
    "x_permissions_from_module" : "List::Gather"

@@ -1,8 +1,8 @@
 package List::Gather;
-# git description: 0.08-5-g3324d4f
+# git description: 0.09-3-g5b2f2a7
 
 # ABSTRACT: Construct lists procedurally without temporary variables
-{ our $VERSION = '0.09'; }
+{ our $VERSION = '0.10'; }
 use strict;
 use warnings;
 use Devel::CallParser;
@@ -170,7 +170,7 @@ List::Gather - Construct lists procedurally without temporary variables
 
 =head1 VERSION
 
-version 0.09
+version 0.10
 
 =head1 SYNOPSIS
 
@@ -341,13 +341,17 @@ the same terms as the Perl 5 programming language system itself.
 
 =head1 CONTRIBUTORS
 
-=for stopwords Karen Etheridge Tony Cook
+=for stopwords Karen Etheridge Father Chrysostomos Tony Cook
 
 =over 4
 
 =item *
 
 Karen Etheridge <ether@cpan.org>
+
+=item *
+
+Father Chrysostomos <sprout@cpan.org>
 
 =item *
 
