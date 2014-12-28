@@ -30,7 +30,7 @@ no_index:
 provides:
   List::Gather:
     file: lib/List/Gather.pm
-    version: '0.10'
+    version: '0.11'
 requires:
   Devel::CallChecker: '0'
   Devel::CallParser: '0'
@@ -43,10 +43,10 @@ resources:
   bugtracker: https://rt.cpan.org/Public/Dist/Display.html?Name=List-Gather
   homepage: https://github.com/karenetheridge/List-Gather
   repository: https://github.com/karenetheridge/List-Gather.git
-version: '0.10'
+version: '0.11'
 x_Dist_Zilla:
   perl:
-    version: '5.021006'
+    version: '5.020001'
   plugins:
     -
       class: Dist::Zilla::Plugin::Prereqs
@@ -248,16 +248,13 @@ x_Dist_Zilla:
       name: '@Author::ETHER/Test::Portability'
       version: '2.000005'
     -
+      class: Dist::Zilla::Plugin::Git::Describe
+      name: '@Author::ETHER/Git::Describe'
+      version: '0.004'
+    -
       class: Dist::Zilla::Plugin::PkgVersion
       name: '@Author::ETHER/PkgVersion'
       version: '5.029'
-    -
-      class: Dist::Zilla::Plugin::Git::Describe
-      config:
-        Dist::Zilla::Plugin::Git::Describe:
-          on_package_line: '0'
-      name: '@Author::ETHER/Git::Describe'
-      version: '0.004'
     -
       class: Dist::Zilla::Plugin::PodWeaver
       config:
@@ -569,7 +566,7 @@ x_Dist_Zilla:
         Dist::Zilla::Plugin::Git::Tag:
           branch: ~
           signed: 0
-          tag: '0.10'
+          tag: '0.11'
           tag_format: '%v%t'
           tag_message: v%v%t
           time_zone: local
