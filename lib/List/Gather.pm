@@ -1,8 +1,6 @@
-package List::Gather;
-# git description: 0.10-3-g0c533ab
-{ our $VERSION = '0.11'; }
+package List::Gather; # git description: 0.11-1-gf944029
 # ABSTRACT: Construct lists procedurally without temporary variables
-
+$List::Gather::VERSION = '0.12';
 use strict;
 use warnings;
 use Devel::CallParser;
@@ -170,7 +168,7 @@ List::Gather - Construct lists procedurally without temporary variables
 
 =head1 VERSION
 
-version 0.11
+version 0.12
 
 =head1 SYNOPSIS
 

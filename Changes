@@ -1,5 +1,8 @@
 Revision history for List-Gather
 
+0.12  2015-01-03 20:38:19Z
+  * re-release to fix problematic $VERSION declaration (RT#101095)
+
 0.11  2014-12-28 20:01:49Z
   * fix failures on non-development perls -- ether is very sorry;
    thanks Father Chrysostomos! (RT#101157)

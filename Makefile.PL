@@ -55,7 +55,7 @@ my %WriteMakefileArgs = (
     "Test::More" => "0.98",
     "Try::Tiny" => 0
   },
-  "VERSION" => "0.11",
+  "VERSION" => "0.12",
   "clean" => {
     "FILES" => "callchecker0.h callparser.h"
   },
